@@ -1,4 +1,4 @@
-package thread;
+package thread.extendsThread;
 
 public class CreateThread  extends Thread {
 
