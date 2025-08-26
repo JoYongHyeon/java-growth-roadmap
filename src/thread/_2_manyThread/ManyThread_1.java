@@ -1,4 +1,4 @@
-package thread.manyThread;
+package thread._2_manyThread;
 
 import thread.runnable.FirstRunnable;
 
