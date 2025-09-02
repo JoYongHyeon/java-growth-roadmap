@@ -1,6 +1,5 @@
 package thread._6_yield;
 
-import static thread.util.ThreadUtils.sleep;
 
 public class Yield_V1 {
 
