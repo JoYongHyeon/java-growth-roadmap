@@ -1,5 +1,8 @@
 package thread._8_synchronized;
 
+import thread._9_concurrent.locks.Account_V4_Impl;
+import thread._9_concurrent.locks.Account_V5_Impl;
+
 import static thread.util.ThreadUtils.sleep;
 import static util.ThreadLogger.log;
 
@@ -9,7 +12,12 @@ public class Account_Main {
 
 //        Account_V1_Impl account = new Account_V1_Impl(1000);
 //        Account_V2_Impl account = new Account_V2_Impl(1000);
-        Account_V3_Impl account = new Account_V3_Impl(1000);
+//        Account_V3_Impl account = new Account_V3_Impl(1000);
+
+        // 여기서는 ReentrantLock
+//        Account_V4_Impl account = new Account_V4_Impl(1000);
+        // tryLock 사용
+        Account_V5_Impl account = new Account_V5_Impl(1000);
 
         Thread t1 = new Thread(new WithDrawTask(account, 800), "t1");
         Thread t2 = new Thread(new WithDrawTask(account, 800), "t2");
