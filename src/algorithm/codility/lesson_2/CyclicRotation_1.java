@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * 딱히 어려운 부분은 없음
  */
-public class CyclicRotation_2 {
+public class CyclicRotation_1 {
 
     public static void main(String[] args) {
 
