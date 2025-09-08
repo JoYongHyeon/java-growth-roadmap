@@ -4,27 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
 
-        int maxGap = 0;
-        int currentGap = -1; // 아직 1을 못 만났을 때
 
-        while (N > 0) {
-            int bit = N % 2; // N을 2로 나눈 나머지 -> 0 또는 1
-
-            if (bit == 1) {
-                if (currentGap > maxGap) {
-                    maxGap = currentGap;
-                }
-                currentGap = 0; // 새로운 갭 시작
-            } else if (currentGap >= 0) {
-                currentGap++; // 0이면 갭 증가
-            }
-
-            N = N / 2; // 다음 비트로 이동
-        }
-
-        System.out.println(maxGap);
     }
 }
