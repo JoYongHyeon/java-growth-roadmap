@@ -2,7 +2,7 @@ package thread._10_product_consumer;
 
 import static util.ThreadLogger.log;
 
-public class BoundedQueue_V1_Producer implements Runnable{
+public class BoundedQueue_V1_Producer implements Runnable {
 
     private BoundedQueue queue;
     private String request;
