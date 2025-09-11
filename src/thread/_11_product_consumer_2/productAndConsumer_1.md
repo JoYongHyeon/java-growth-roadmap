@@ -90,3 +90,109 @@ Condition condition = lock.newCondition();
 11:20:31.300 [     main] consumer3: TERMINATED
 11:20:31.300 [     main] == [생산자 먼저 실행] 종료, BoundedQueue_V4 ==
 ```
+---
+
+## 이제 생산자 스레드를 위한 대기 공간과 소비자 스레드를 위한 대기공간을 분리해서 만들어보자.
+![img_1.png](img_1.png)
+[사진 출처: 김영한의 실전 자바 - 고급 1편](https://www.inflearn.com/course/%EA%B9%80%EC%98%81%ED%95%9C%EC%9D%98-%EC%8B%A4%EC%A0%84-%EC%9E%90%EB%B0%94-%EA%B3%A0%EA%B8%89-1/dashboard)
+
+```java
+package thread._11_product_consumer_2;
+
+import thread._10_product_consumer.BoundedQueue;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static util.ThreadLogger.log;
+
+public class BoundedQueue_V5 implements BoundedQueue {
+
+    private final Lock lock = new ReentrantLock();
+    private final Condition producerCond = lock.newCondition();
+    private final Condition consumerCond = lock.newCondition();
+
+    private final Queue<String> queue = new ArrayDeque<>();
+    private final int max;
+
+    public BoundedQueue_V5(int max) {
+        this.max = max;
+    }
+
+    @Override
+    public void put(String data) {
+
+        lock.lock();
+        try {
+            while (queue.size() == max) {
+                log("[put] 큐가 가득 참, 생산자 대기");
+                try {
+                    producerCond.await();
+                    log("[put] 생산자 깨어남");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            queue.offer(data);
+            log("[put] 생산자 데이터 저장, signal() 호출");
+            consumerCond.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public String take() {
+        lock.lock();
+        try {
+            while (queue.isEmpty()) {
+                log("[take] 큐에 데이터가 없음, 소비자 대기");
+
+                try {
+                    consumerCond.await();
+                    log("[take] 소비자 깨어남");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            String data = queue.poll();
+            log("[take] 소비자 데이터 획득, signal() 호출");
+            producerCond.signal();
+            return data;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+}
+```
+소스를 보면 `lock.newCondition()` 을 두 번 호출해서 `ReentrantLock`을 사용하는 스레드 대기공간을 2개로 만들었다.
+```java
+private final ReentrantLock lock = new ReentrantLock();
+private final Condition producerCond = lock.newCondition();
+private final Condition consumerCond = lock.newCondition();
+```
+- **consumerCond**: 소비자를 위한 스레드 대기 공간
+- **producerCond**: 생산자를 위한 스레드 대기 공간
+
+**여기서의 핵심은 생산자는 소비자를 깨우고, 소비자는 생산자를 깨운다는 점이다.**
+`BoundedQueue_V5_Main` 결과는 같지만 기존의 비효율적으로 실행되는 부분이 제거되고 깔끔하게 작업이 실행된다. 
+
+---
+## 정리
+자바의 모든 객체 인스턴스는 멀티스레드와 임계 영역을 다루기 위해 내부에 3가지 기본 요소를 가짐
+- **모니터 락**
+- **락 대기 집합(모니터 락 대기 집합)**
+- **스레드 대기 집합**
+---
+`BoundedQueue_V5`를 사용하면 이제 다양한 프로젝트에서 재사용이 가능하지 않을까? 라는 생각이 들 것이다.
+그런 생각이 들었따면 이미 어딘가에 다 만들어져 있다고 생각하면 된다.!
+
+`productAndConsumer_2.md` 에서 이어나가보자.
