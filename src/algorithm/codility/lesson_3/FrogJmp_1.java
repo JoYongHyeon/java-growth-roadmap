@@ -14,5 +14,9 @@ public class FrogJmp_1 {
 
         System.out.println((Y - X + D - 1) / D);
 
+        // 더 좋은 대안
+//        int distance = Y - X;
+//        int jumps = distance / D + (distance % D == 0 ? 0 : 1);
+
     }
 }
