@@ -12,8 +12,6 @@ public class MaxCounters_3 {
         int M = A.length;
         int maxNum = 0;
 
-
-        // {0, 0, 0, 0, 0}
         for (int i = 0; i < M; i++) {
             if (1 <= A[i] && A[i] <= N) {
                 int i1 = A[i]; // 3
@@ -21,6 +19,11 @@ public class MaxCounters_3 {
                 maxNum = Math.max(maxNum, K[i1 - 1]);
             }
 
+            /**
+             * 기존 방식
+             * 문제점: N+1 연산이 나올 때마다 배열 전체를 반복문으로 갱신
+             * N과 M이 크면 O(N*M) -> 타임아웃
+             */
             if (A[i] == (N + 1)) {
                 for (int j = 0; j < N; j++) {
                     K[j] = maxNum;
