@@ -2,7 +2,7 @@ package algorithm.codility.lesson_4;
 
 import java.util.Arrays;
 
-public class MaxCounters_3_Refactoring {
+public class _3_Refactoring_MaxCounters {
 
     public static void main(String[] args) {
         /**

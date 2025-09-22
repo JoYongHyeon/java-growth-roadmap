@@ -3,7 +3,7 @@ package algorithm.codility.lesson_4;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PermCheck_2 {
+public class _2_PermCheck {
 
     public static void main(String[] args) {
 

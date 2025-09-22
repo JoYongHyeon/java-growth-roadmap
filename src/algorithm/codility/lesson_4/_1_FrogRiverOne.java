@@ -1,6 +1,6 @@
 package algorithm.codility.lesson_4;
 
-public class FrogRiverOne_1 {
+public class _1_FrogRiverOne {
 
     public static void main(String[] args) {
 
