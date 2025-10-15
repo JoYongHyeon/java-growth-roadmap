@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class _1_StreamStartMain_1 {
+public class _1_StreamStart_Main {
 
     public static void main(String[] args) throws IOException {
         // 파일에 데이터를 출력하는 스트림
