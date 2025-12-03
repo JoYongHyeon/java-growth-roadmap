@@ -1,6 +1,5 @@
 package algorithm.programmers._1_level;
 
-import java.util.Arrays;
 
 public class _4_12944 {
 
@@ -9,8 +8,8 @@ public class _4_12944 {
         int[] arr = {1, 2, 3, 4};
         double sum = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            sum += arr[i];
+        for (int j : arr) {
+            sum += j;
         }
         System.out.println(sum / arr.length);
 
